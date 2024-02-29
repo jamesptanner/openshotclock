@@ -16,12 +16,12 @@ int main(){
   //clock -> gpio12 -> pin16
   //data in -> gpio13 -> pin16
   configureMax7219(MAX_DIN,MAX_LOAD,MAX_CLK);
-  setShutdown(false);
+  setShutdown(true);
   setNumOfDigits(2);
   setDecodeMode(0xff);
   // setNumber(0);
   setBrightness(1);
-  setShutdown(true);
+  setShutdown(false);
   setTestMode(false);
   uint8_t num = 0;
   while (true){ 

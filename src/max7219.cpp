@@ -73,7 +73,7 @@ void setDigit (const uint8_t index, const uint8_t digit, const bool dp) {
 void setShutdown(const bool shutdown) {
   printf("setShutdown %d\n", shutdown);
   const uint8_t addr = 0x0c;
-  const uint8_t data = shutdown ? 0x1: 0x0;
+  const uint8_t data = shutdown ? 0x0 : 0x1;
   const int16_t cmd = buildCmd(addr,data);
   if (cmd != 0xffff){
     writeToMax(cmd);
