@@ -9,7 +9,7 @@ uint8_t max_clock, max_data, max_load;
 void writeToMax(const int16_t cmd);
 int16_t buildCmd(const uint8_t addr, const uint8_t data );
 
-void configureMax7219(const uint8_t data, const uint8_t load, const uint8_t clock){
+void configureMax7219(const uint8_t data, const uint8_t load, const uint8_t clock, const uint8_t numOfDigits){
   printf("Configuring Max7219. datapin: %d loadpin: %d clockpin: %d\n",data,load,clock);
 
   max_data=data;
@@ -21,6 +21,15 @@ void configureMax7219(const uint8_t data, const uint8_t load, const uint8_t cloc
   max_load=load;
   gpio_init(load);
   gpio_set_dir(load, GPIO_OUT);
+
+
+  setShutdown(true);
+  setNumOfDigits(numOfDigits);
+  setDecodeMode(0xff);
+  // setNumber(0);
+  setBrightness(1);
+  setShutdown(false);
+  setTestMode(false);
 }
 
 void blankScreen(){

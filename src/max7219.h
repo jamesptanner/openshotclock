@@ -1,6 +1,6 @@
 #include "pico/stdlib.h"
 
-void configureMax7219(const uint8_t data, const uint8_t load, const uint8_t clock);
+void configureMax7219(const uint8_t data, const uint8_t load, const uint8_t clock, const uint8_t numOfDigits);
 void blankScreen();
 void setCustomDigit(const uint8_t index, const uint8_t digit) ;
 void setNumber(int32_t num) ;

@@ -1,6 +1,7 @@
 #include "pico/stdlib.h"
 
-void addSecondToTimer(unsigned int, long unsigned int);
-void resetTimer(unsigned int, long unsigned int);
-void startStopTimer(unsigned int, long unsigned int);
+void addSecondToTimerCallback(unsigned int pin, long unsigned int event);
+void resetTimerCallback(unsigned int pin, long unsigned int event);
+void startStopTimerCallback(unsigned int pin, long unsigned int event);
 uint8_t getSecondsLeft();
+void timerSetup(void);
