@@ -11,14 +11,45 @@
 #define CTRL_RST 10
 #define CTRL_STR_STOP 11 
 
+
+
+void timerCallback(unsigned int pin, long unsigned int){
+  printf("pin %d: ", pin);
+  switch (pin){
+    case CTRL_ADD:
+      addSecondToTimerCallback();
+      break;
+    case CTRL_RST:
+      resetTimerCallback();
+      break;
+    case CTRL_STR_STOP:
+      startStopTimerCallback();
+      break; 
+  }
+}
+
+
 void setupTimer(){
-  gpio_set_irq_enabled_with_callback(CTRL_ADD, GPIO_IRQ_EDGE_RISE, true, &addSecondToTimerCallback);
-  gpio_set_irq_enabled_with_callback(CTRL_RST, GPIO_IRQ_EDGE_RISE, true, &resetTimerCallback);
-  gpio_set_irq_enabled_with_callback(CTRL_STR_STOP, GPIO_IRQ_EDGE_RISE, true, &startStopTimerCallback);
+
+  gpio_init(CTRL_ADD);
+  gpio_set_dir(CTRL_ADD, GPIO_IN);
+  gpio_set_pulls(CTRL_ADD,true,false);
+  gpio_init(CTRL_RST);
+  gpio_set_dir(CTRL_RST, GPIO_IN);
+  gpio_set_pulls(CTRL_RST,true,false);
+  gpio_init(CTRL_STR_STOP);
+  gpio_set_dir(CTRL_STR_STOP, GPIO_IN);
+  gpio_set_pulls(CTRL_STR_STOP,true,false);
+
+
+  // gpio_set_irq_callback();
+  gpio_set_irq_enabled_with_callback(CTRL_ADD, GPIO_IRQ_EDGE_RISE, true, &timerCallback);
+  gpio_set_irq_enabled(CTRL_RST, GPIO_IRQ_EDGE_RISE, true);
+  gpio_set_irq_enabled(CTRL_STR_STOP, GPIO_IRQ_EDGE_RISE, true);
   timerSetup();
 }
 
-int main(){
+ int main(){
   stdio_init_all();
   
   //load -> gpio6 -> pin9

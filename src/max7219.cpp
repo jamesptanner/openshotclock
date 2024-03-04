@@ -33,14 +33,14 @@ void configureMax7219(const uint8_t data, const uint8_t load, const uint8_t cloc
 }
 
 void blankScreen(){
-  printf("blanking Screen\n");
+  // printf("blanking Screen\n");
   for (uint8_t i = 0 ; i < 8; i++){
     setCustomDigit(i,0xf);
   }
 }
 
 void setNumber(int32_t num) {
-  printf("Writing number %d\n", num);
+  // printf("Writing number %d\n", num);
   blankScreen();
   if (num == 0){
     setDigit(0,0,false);

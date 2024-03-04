@@ -1,0 +1,10 @@
+{
+    "configurations": [
+        {
+            "name": "cmake",
+            "configurationProvider": "ms-vscode.cmake-tools",
+            "intelliSenseMode": "linux-gcc-x64"
+        }
+    ],
+    "version": 4
+}
