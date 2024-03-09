@@ -10,10 +10,14 @@
 #define CTRL_ADD 8
 #define CTRL_RST 10
 #define CTRL_STR_STOP 11 
+#define BUZZER 7
 
-
+bool ready = false;
 
 void timerCallback(unsigned int pin, long unsigned int){
+  if(!ready) return;
+  //debounce the pin
+
   printf("pin %d: ", pin);
   switch (pin){
     case CTRL_ADD:
@@ -31,6 +35,7 @@ void timerCallback(unsigned int pin, long unsigned int){
 
 void setupTimer(){
 
+
   gpio_init(CTRL_ADD);
   gpio_set_dir(CTRL_ADD, GPIO_IN);
   gpio_set_pulls(CTRL_ADD,true,false);
@@ -41,12 +46,17 @@ void setupTimer(){
   gpio_set_dir(CTRL_STR_STOP, GPIO_IN);
   gpio_set_pulls(CTRL_STR_STOP,true,false);
 
+  gpio_init(BUZZER);
+  gpio_set_dir(BUZZER,true);
+
 
   // gpio_set_irq_callback();
   gpio_set_irq_enabled_with_callback(CTRL_ADD, GPIO_IRQ_EDGE_RISE, true, &timerCallback);
   gpio_set_irq_enabled(CTRL_RST, GPIO_IRQ_EDGE_RISE, true);
   gpio_set_irq_enabled(CTRL_STR_STOP, GPIO_IRQ_EDGE_RISE, true);
   timerSetup();
+  sleep_ms(100); // let the buttons debounce.
+  ready = true;
 }
 
  int main(){

@@ -4,6 +4,8 @@
 
 #define DURATION 25
 
+#define BUZZER 7
+
 enum CURRENT_TIMER_STATE{
     RUNNING, 
     PAUSED
@@ -29,6 +31,9 @@ void alarmCallback(uint alarm_num){
     state = PAUSED;
     hardware_alarm_cancel(hardwareAlarmId);
     printf("beep\n");
+    gpio_put(BUZZER,1);
+    busy_wait_ms(750);
+    gpio_put(BUZZER,0);
 }
 
 
