@@ -13,22 +13,28 @@
 #define BUZZER 7
 
 bool ready = false;
-
+int64_t lastButton = 0;
 void timerCallback(unsigned int pin, long unsigned int){
   if(!ready) return;
   //debounce the pin
 
-  printf("pin %d: ", pin);
-  switch (pin){
-    case CTRL_ADD:
-      addSecondToTimerCallback();
-      break;
-    case CTRL_RST:
-      resetTimerCallback();
-      break;
-    case CTRL_STR_STOP:
-      startStopTimerCallback();
-      break; 
+  if(absolute_time_diff_us(from_us_since_boot(lastButton),get_absolute_time()) > 50000){
+    lastButton = to_us_since_boot(get_absolute_time());
+    printf("pin %d: ", pin);
+    switch (pin){
+      case CTRL_ADD:
+        addSecondToTimerCallback();
+        break;
+      case CTRL_RST:
+        resetTimerCallback();
+        break;
+      case CTRL_STR_STOP:
+        startStopTimerCallback();
+        break; 
+    }
+  }
+  else {
+    printf("debounce!!!!\n");
   }
 }
 
