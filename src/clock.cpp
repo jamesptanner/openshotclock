@@ -47,8 +47,8 @@ void timerSetup(void){
 
 
 void addSecondToTimerCallback(){
-    printf("Add 1 second\n");
     timeLeftInUs += 1000000;
+    printf("Time left: %d\n",timeLeftInUs);
     if(state == RUNNING){
         hardware_alarm_cancel(hardwareAlarmId);
         hardware_alarm_set_target(hardwareAlarmId,delayed_by_us(timeRunningStarted,timeLeftInUs));
@@ -71,7 +71,9 @@ void startStopTimerCallback(){
         printf("Stopping Timer\n");
         absolute_time_t stopTime = get_absolute_time();
         hardware_alarm_cancel(hardwareAlarmId);
-        timeLeftInUs = absolute_time_diff_us(timeRunningStarted,stopTime);
+        timeLeftInUs -= absolute_time_diff_us(timeRunningStarted,stopTime);
+        printf("time started:%lld time stopped:%lld\n",timeRunningStarted,stopTime);
+        printf("time left:%lld\n",timeLeftInUs);
         state = PAUSED;
     }
 }
@@ -81,6 +83,6 @@ int8_t getSecondsLeft(){
     if (state == PAUSED){
         return (int8_t) (timeLeftInUs/1000000);
     }
-
+    printf("start: %lld, now:%lld\n",timeRunningStarted,get_absolute_time());
     return (int8_t) ((timeLeftInUs - absolute_time_diff_us(timeRunningStarted,get_absolute_time()))/1000000);
 }
